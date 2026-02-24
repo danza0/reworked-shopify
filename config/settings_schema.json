@@ -1,0 +1,14 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Reworked",
+    "theme_author": "Reworked Team",
+    "theme_version": "1.0.0",
+    "theme_documentation_url": "https://github.com/danza0/reworked-shopify",
+    "theme_support_url": "https://github.com/danza0/reworked-shopify/issues"
+  },
+  {
+    "name": "Colors",
+    "settings": []
+  }
+]
