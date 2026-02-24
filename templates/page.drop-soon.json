@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "drop-soon",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

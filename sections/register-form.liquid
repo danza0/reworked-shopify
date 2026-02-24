@@ -1,0 +1,860 @@
+{% style %}
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600&display=swap');
+
+  @keyframes fadeSlideUp-{{ section.id }} {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes logoFadeIn-{{ section.id }} {
+    from { opacity: 0; }
+    to   { opacity: {{ section.settings.logo_opacity | divided_by: 100.0 }}; }
+  }
+
+  #section-{{ section.id }} {
+    position: relative;
+    min-height: 100vh;
+    background-color: {{ section.settings.bg_color }};
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  #section-{{ section.id }} .rf-logo-bg {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: {{ section.settings.logo_size }}vw;
+    height: auto;
+    transform: translate(-50%, -50%);
+    opacity: {{ section.settings.logo_opacity | divided_by: 100.0 }};
+    pointer-events: none;
+    user-select: none;
+    animation: logoFadeIn-{{ section.id }} 1.4s ease forwards;
+    object-fit: contain;
+    z-index: 0;
+  }
+
+  #section-{{ section.id }} .rf-nav {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 40px;
+    color: {{ section.settings.nav_color }};
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  #section-{{ section.id }} .rf-nav-back {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: {{ section.settings.nav_color }};
+    transition: opacity 0.2s;
+  }
+  #section-{{ section.id }} .rf-nav-back:hover { opacity: 0.65; }
+  #section-{{ section.id }} .rf-nav-back svg { width: 14px; height: 14px; }
+
+  #section-{{ section.id }} .rf-main {
+    position: relative;
+    z-index: 10;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px 64px;
+  }
+
+  #section-{{ section.id }} .rf-card {
+    width: 100%;
+    max-width: {{ section.settings.form_max_width }}px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+  }
+
+  #section-{{ section.id }} .rf-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: {{ section.settings.heading_size }}px;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: {{ section.settings.heading_color }};
+    margin: 0 0 4px;
+    opacity: 0;
+    animation: fadeSlideUp-{{ section.id }} 0.8s ease 0.2s forwards;
+  }
+
+  #section-{{ section.id }} .rf-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-size: {{ section.settings.subtitle_size }}px;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    color: {{ section.settings.subtitle_color }};
+    margin: 0 0 20px;
+    opacity: 0;
+    animation: fadeSlideUp-{{ section.id }} 0.8s ease 0.4s forwards;
+  }
+
+  #section-{{ section.id }} .rf-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    opacity: 0;
+    animation: fadeSlideUp-{{ section.id }} 0.8s ease 0.6s forwards;
+  }
+
+  #section-{{ section.id }} .rf-field-label {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: {{ section.settings.field_label_color }};
+    margin-bottom: 6px;
+    text-align: left;
+  }
+
+  #section-{{ section.id }} .rf-phone-row {
+    display: flex;
+    width: 100%;
+  }
+
+  #section-{{ section.id }} .rf-country-select {
+    flex: 0 0 auto;
+    width: 110px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    color: {{ section.settings.input_color }};
+    background-color: {{ section.settings.input_bg }};
+    border: 1px solid {{ section.settings.input_border }};
+    border-right: none;
+    border-radius: {{ section.settings.input_radius }}px 0 0 {{ section.settings.input_radius }}px;
+    padding: 12px 10px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  #section-{{ section.id }} .rf-country-select:focus {
+    border-color: {{ section.settings.input_focus_border }};
+  }
+
+  #section-{{ section.id }} .rf-phone-input {
+    flex: 1 1 auto;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    color: {{ section.settings.input_color }};
+    background-color: {{ section.settings.input_bg }};
+    border: 1px solid {{ section.settings.input_border }};
+    border-radius: 0 {{ section.settings.input_radius }}px {{ section.settings.input_radius }}px 0;
+    padding: 12px 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  #section-{{ section.id }} .rf-phone-input:focus {
+    border-color: {{ section.settings.input_focus_border }};
+  }
+  #section-{{ section.id }} .rf-phone-input::placeholder {
+    color: {{ section.settings.hint_color }};
+  }
+
+  #section-{{ section.id }} .rf-email-input {
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    color: {{ section.settings.input_color }};
+    background-color: {{ section.settings.input_bg }};
+    border: 1px solid {{ section.settings.input_border }};
+    border-radius: {{ section.settings.input_radius }}px;
+    padding: 12px 14px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+  }
+  #section-{{ section.id }} .rf-email-input:focus {
+    border-color: {{ section.settings.input_focus_border }};
+  }
+  #section-{{ section.id }} .rf-email-input::placeholder {
+    color: {{ section.settings.hint_color }};
+  }
+
+  #section-{{ section.id }} .rf-optional-hint {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: {{ section.settings.hint_color }};
+    margin-left: 4px;
+  }
+
+  #section-{{ section.id }} .rf-submit-btn {
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: {{ section.settings.btn_font_size }}px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: {{ section.settings.btn_padding }}px;
+    border-radius: {{ section.settings.btn_radius }}px;
+    border: none;
+    background-color: {{ section.settings.btn_bg }};
+    color: {{ section.settings.btn_text_color }};
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 4px;
+  }
+  #section-{{ section.id }} .rf-submit-btn:hover:not(:disabled) {
+    background-color: {{ section.settings.btn_hover_bg }};
+    color: {{ section.settings.btn_hover_text }};
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  }
+  #section-{{ section.id }} .rf-submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  #section-{{ section.id }} .rf-consent {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    color: {{ section.settings.hint_color }};
+    margin-top: 4px;
+  }
+
+  /* Success state */
+  #section-{{ section.id }} .rf-success {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    opacity: 0;
+    animation: fadeSlideUp-{{ section.id }} 0.8s ease forwards;
+  }
+  #section-{{ section.id }} .rf-success.is-visible {
+    display: flex;
+  }
+  #section-{{ section.id }} .rf-success-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1.5px solid {{ section.settings.heading_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #section-{{ section.id }} .rf-success-icon svg {
+    width: 24px;
+    height: 24px;
+    stroke: {{ section.settings.heading_color }};
+  }
+  #section-{{ section.id }} .rf-success-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: {{ section.settings.heading_size }}px;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: {{ section.settings.heading_color }};
+    margin: 0;
+  }
+  #section-{{ section.id }} .rf-success-msg {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    color: {{ section.settings.body_color }};
+    margin: 0;
+  }
+  #section-{{ section.id }} .rf-success-back {
+    display: inline-block;
+    margin-top: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: {{ section.settings.btn_font_size }}px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: {{ section.settings.btn_padding }}px 40px;
+    border-radius: {{ section.settings.btn_radius }}px;
+    border: 1px solid {{ section.settings.btn_bg }};
+    background-color: {{ section.settings.btn_bg }};
+    color: {{ section.settings.btn_text_color }};
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  #section-{{ section.id }} .rf-success-back:hover {
+    background-color: {{ section.settings.btn_hover_bg }};
+    color: {{ section.settings.btn_hover_text }};
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  }
+
+  @media (max-width: 600px) {
+    #section-{{ section.id }} .rf-nav {
+      padding: 20px 20px;
+    }
+    #section-{{ section.id }} .rf-heading {
+      font-size: {{ section.settings.heading_size | times: 0.72 | round }}px;
+    }
+  }
+{% endstyle %}
+
+<section id="section-{{ section.id }}" aria-label="{{ section.settings.heading_text | escape }}">
+  {% if section.settings.logo != blank %}
+    <img
+      class="rf-logo-bg"
+      src="{{ section.settings.logo | image_url: width: 1200 }}"
+      alt=""
+      aria-hidden="true"
+      loading="eager"
+    >
+  {% endif %}
+
+  <nav class="rf-nav" aria-label="Page navigation">
+    <a class="rf-nav-back" href="{{ section.settings.back_url | default: '/' }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <path d="M19 12H5M5 12l7-7M5 12l7 7"/>
+      </svg>
+      {{ section.settings.back_text }}
+    </a>
+    <span>{{ section.settings.nav_brand }}</span>
+  </nav>
+
+  <div class="rf-main">
+    <div class="rf-card">
+
+      <!-- Form state -->
+      <div id="rf-form-wrap-{{ section.id }}">
+        {% if section.settings.heading_text != blank %}
+          <h1 class="rf-heading">{{ section.settings.heading_text }}</h1>
+        {% endif %}
+        {% if section.settings.subtitle_text != blank %}
+          <div class="rf-subtitle">{{ section.settings.subtitle_text }}</div>
+        {% endif %}
+
+        <form
+          class="rf-form"
+          id="rf-form-{{ section.id }}"
+          action="/contact"
+          method="POST"
+          novalidate
+        >
+          <input type="hidden" name="form_type" value="contact">
+          <input type="hidden" name="utf8" value="✓">
+
+          <!-- Phone field -->
+          <div>
+            <label class="rf-field-label" for="rf-phone-{{ section.id }}">
+              {{ section.settings.phone_label }}
+            </label>
+            <div class="rf-phone-row">
+              <select
+                class="rf-country-select"
+                id="rf-country-{{ section.id }}"
+                aria-label="Country code"
+              >
+                <option value="+1">🇺🇸 +1</option>
+                <option value="+44">🇬🇧 +44</option>
+                <option value="+971">🇦🇪 +971</option>
+                <option value="+7">🇷🇺 +7</option>
+                <option value="+380">🇺🇦 +380</option>
+                <option value="+49">🇩🇪 +49</option>
+                <option value="+33">🇫🇷 +33</option>
+                <option value="+39">🇮🇹 +39</option>
+                <option value="+34">🇪🇸 +34</option>
+                <option value="+81">🇯🇵 +81</option>
+                <option value="+82">🇰🇷 +82</option>
+                <option value="+86">🇨🇳 +86</option>
+                <option value="+91">🇮🇳 +91</option>
+                <option value="+61">🇦🇺 +61</option>
+                <option value="+55">🇧🇷 +55</option>
+                <option value="+52">🇲🇽 +52</option>
+                <option value="+90">🇹🇷 +90</option>
+                <option value="+966">🇸🇦 +966</option>
+                <option value="+234">🇳🇬 +234</option>
+                <option value="+27">🇿🇦 +27</option>
+                <option value="+254">🇰🇪 +254</option>
+                <option value="+60">🇲🇾 +60</option>
+                <option value="+63">🇵🇭 +63</option>
+                <option value="+65">🇸🇬 +65</option>
+                <option value="+62">🇮🇩 +62</option>
+                <option value="+48">🇵🇱 +48</option>
+                <option value="+31">🇳🇱 +31</option>
+                <option value="+46">🇸🇪 +46</option>
+                <option value="+47">🇳🇴 +47</option>
+                <option value="+41">🇨🇭 +41</option>
+                <option value="+43">🇦🇹 +43</option>
+                <option value="+32">🇧🇪 +32</option>
+                <option value="+351">🇵🇹 +351</option>
+                <option value="+30">🇬🇷 +30</option>
+                <option value="+353">🇮🇪 +353</option>
+                <option value="+64">🇳🇿 +64</option>
+                <option value="+20">🇪🇬 +20</option>
+                <option value="+972">🇮🇱 +972</option>
+                <option value="+66">🇹🇭 +66</option>
+                <option value="+84">🇻🇳 +84</option>
+              </select>
+              <input
+                class="rf-phone-input"
+                type="tel"
+                id="rf-phone-{{ section.id }}"
+                name="contact[phone]"
+                placeholder="{{ section.settings.phone_placeholder }}"
+                inputmode="numeric"
+                autocomplete="tel"
+                required
+              >
+            </div>
+          </div>
+
+          {% if section.settings.show_email %}
+          <!-- Email field -->
+          <div>
+            <label class="rf-field-label" for="rf-email-{{ section.id }}">
+              {{ section.settings.email_label }}
+              {% if section.settings.email_optional_text != blank %}
+                <span class="rf-optional-hint">{{ section.settings.email_optional_text }}</span>
+              {% endif %}
+            </label>
+            <input
+              class="rf-email-input"
+              type="email"
+              id="rf-email-{{ section.id }}"
+              name="contact[email]"
+              placeholder="{{ section.settings.email_placeholder }}"
+              autocomplete="email"
+            >
+          </div>
+          {% endif %}
+
+          <button class="rf-submit-btn" type="submit" id="rf-submit-{{ section.id }}">
+            {{ section.settings.btn_submit_text }}
+          </button>
+
+          {% if section.settings.consent_text != blank %}
+            <p class="rf-consent">{{ section.settings.consent_text }}</p>
+          {% endif %}
+        </form>
+      </div>
+
+      <!-- Success state -->
+      <div class="rf-success" id="rf-success-{{ section.id }}" aria-live="polite">
+        <div class="rf-success-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" aria-hidden="true">
+            <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h2 class="rf-success-heading">{{ section.settings.success_heading }}</h2>
+        <p class="rf-success-msg">{{ section.settings.success_message }}</p>
+        <a class="rf-success-back" href="{{ section.settings.back_url | default: '/' }}">
+          {{ section.settings.success_btn_text }}
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  var sid = {{ section.id | json }};
+  var form     = document.getElementById('rf-form-' + sid);
+  var formWrap = document.getElementById('rf-form-wrap-' + sid);
+  var submitBtn = document.getElementById('rf-submit-' + sid);
+  var successEl = document.getElementById('rf-success-' + sid);
+  var phoneInput = document.getElementById('rf-phone-' + sid);
+  var countrySelect = document.getElementById('rf-country-' + sid);
+  var submittingText = {{ section.settings.btn_submitting_text | json }};
+
+  if (!form) return;
+
+  // Digits-only enforcement on phone input
+  phoneInput.addEventListener('input', function() {
+    this.value = this.value.replace(/[^\d]/g, '');
+  });
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    var digits = phoneInput.value.trim();
+    if (!digits) {
+      phoneInput.focus();
+      return;
+    }
+
+    // Prepend country code
+    var code = countrySelect ? countrySelect.value : '';
+    var fullPhone = code + digits;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = submittingText;
+
+    var formData = new FormData(form);
+    formData.set('contact[phone]', fullPhone);
+
+    fetch('/contact', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: formData
+    })
+    .then(function(res) {
+      if (res.ok || res.status === 200 || res.redirected) {
+        formWrap.style.display = 'none';
+        successEl.classList.add('is-visible');
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = {{ section.settings.btn_submit_text | json }};
+      }
+    })
+    .catch(function() {
+      // Network error — re-enable the button so the user can retry
+      submitBtn.disabled = false;
+      submitBtn.textContent = {{ section.settings.btn_submit_text | json }};
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Register Form",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "range",
+      "id": "logo_opacity",
+      "label": "Logo opacity",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "default": 5,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "logo_size",
+      "label": "Logo size",
+      "min": 20,
+      "max": 90,
+      "step": 1,
+      "default": 70,
+      "unit": "vw"
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "text",
+      "id": "nav_brand",
+      "label": "Brand name",
+      "default": "REWORKED"
+    },
+    {
+      "type": "text",
+      "id": "back_text",
+      "label": "Back button text",
+      "default": "Back"
+    },
+    {
+      "type": "url",
+      "id": "back_url",
+      "label": "Back button URL"
+    },
+    {
+      "type": "color",
+      "id": "nav_color",
+      "label": "Nav text color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Form Content"
+    },
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Heading text",
+      "default": "Join the List"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading font size",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "default": 52,
+      "unit": "px"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle_text",
+      "label": "Subtitle",
+      "default": "Be the first to know when the drop lands."
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Subtitle font size",
+      "min": 8,
+      "max": 18,
+      "step": 1,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "form_max_width",
+      "label": "Form max width",
+      "min": 320,
+      "max": 600,
+      "step": 10,
+      "default": 420,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Phone Field"
+    },
+    {
+      "type": "text",
+      "id": "phone_label",
+      "label": "Phone field label",
+      "default": "Phone Number"
+    },
+    {
+      "type": "text",
+      "id": "phone_placeholder",
+      "label": "Phone placeholder",
+      "default": "000 000 0000"
+    },
+    {
+      "type": "header",
+      "content": "Email Field"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_email",
+      "label": "Show email field",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "email_label",
+      "label": "Email field label",
+      "default": "Email Address"
+    },
+    {
+      "type": "text",
+      "id": "email_optional_text",
+      "label": "Optional indicator text",
+      "default": "(optional)"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email placeholder",
+      "default": "you@example.com"
+    },
+    {
+      "type": "header",
+      "content": "Submit Button"
+    },
+    {
+      "type": "text",
+      "id": "btn_submit_text",
+      "label": "Submit button text",
+      "default": "Notify Me"
+    },
+    {
+      "type": "text",
+      "id": "btn_submitting_text",
+      "label": "Submitting state text",
+      "default": "Sending..."
+    },
+    {
+      "type": "range",
+      "id": "btn_font_size",
+      "label": "Button font size",
+      "min": 8,
+      "max": 18,
+      "step": 1,
+      "default": 10,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "btn_padding",
+      "label": "Button padding",
+      "min": 8,
+      "max": 32,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "btn_radius",
+      "label": "Button corner radius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "default": 50,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Input Styling"
+    },
+    {
+      "type": "range",
+      "id": "input_radius",
+      "label": "Input corner radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 6,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Consent & Success"
+    },
+    {
+      "type": "text",
+      "id": "consent_text",
+      "label": "Consent text",
+      "default": "By submitting you agree to receive updates about the drop."
+    },
+    {
+      "type": "text",
+      "id": "success_heading",
+      "label": "Success heading",
+      "default": "You're In"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "We'll let you know when the drop is live."
+    },
+    {
+      "type": "text",
+      "id": "success_btn_text",
+      "label": "Success button text",
+      "default": "Back to Home"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "field_label_color",
+      "label": "Field label color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle color",
+      "default": "#555555"
+    },
+    {
+      "type": "color",
+      "id": "hint_color",
+      "label": "Consent / hint text color",
+      "default": "#888888"
+    },
+    {
+      "type": "color",
+      "id": "input_bg",
+      "label": "Input background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "input_color",
+      "label": "Input text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "input_border",
+      "label": "Input border color",
+      "default": "#cccccc"
+    },
+    {
+      "type": "color",
+      "id": "input_focus_border",
+      "label": "Input focus border color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg",
+      "label": "Button background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "btn_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "btn_hover_bg",
+      "label": "Button hover background",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "btn_hover_text",
+      "label": "Button hover text color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Register Form",
+      "category": "Forms"
+    }
+  ]
+}
+{% endschema %}

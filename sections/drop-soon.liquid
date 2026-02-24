@@ -1,0 +1,472 @@
+{% style %}
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600&display=swap');
+
+  @keyframes fadeSlideUp-{{ section.id }} {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes logoZoom-{{ section.id }} {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.92); }
+    to   { opacity: {{ section.settings.logo_opacity | divided_by: 100.0 }}; transform: translate(-50%, -50%) scale(1); }
+  }
+  @keyframes scrollPulse-{{ section.id }} {
+    0%, 100% { transform: translateX(-50%) scaleY(1); opacity: 0.6; }
+    50%       { transform: translateX(-50%) scaleY(0.5); opacity: 1; }
+  }
+
+  #section-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background-color: {{ section.settings.bg_color }};
+    display: flex;
+    flex-direction: column;
+  }
+
+  #section-{{ section.id }} .ds-logo-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: {{ section.settings.logo_size }}vw;
+    height: auto;
+    transform: translate(-50%, -50%);
+    opacity: {{ section.settings.logo_opacity | divided_by: 100.0 }};
+    pointer-events: none;
+    user-select: none;
+    animation: logoZoom-{{ section.id }} 1.4s ease forwards;
+    object-fit: contain;
+  }
+
+  #section-{{ section.id }} .ds-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.18) 100%);
+    pointer-events: none;
+  }
+
+  #section-{{ section.id }} .ds-nav {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 40px;
+    color: {{ section.settings.nav_color }};
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  #section-{{ section.id }} .ds-content {
+    position: relative;
+    z-index: 10;
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 24px 60px;
+    gap: 12px;
+  }
+
+  #section-{{ section.id }} .ds-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: {{ section.settings.label_size }}px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: {{ section.settings.label_color }};
+    opacity: 0;
+    animation: fadeSlideUp-{{ section.id }} 0.8s ease 0.2s forwards;
+  }
+
+  #section-{{ section.id }} .ds-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: {{ section.settings.heading_size_desktop }}px;
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: 0.04em;
+    color: {{ section.settings.heading_color }};
+    margin: 0;
+    opacity: 0;
+    animation: fadeSlideUp-{{ section.id }} 0.8s ease 0.45s forwards;
+  }
+
+  #section-{{ section.id }} .ds-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-size: {{ section.settings.subtitle_size }}px;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    color: {{ section.settings.subtitle_color }};
+    opacity: 0;
+    animation: fadeSlideUp-{{ section.id }} 0.8s ease 0.65s forwards;
+  }
+
+  #section-{{ section.id }} .ds-btn {
+    display: inline-block;
+    margin-top: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: {{ section.settings.btn_font_size }}px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: {{ section.settings.btn_padding_v }}px {{ section.settings.btn_padding_h }}px;
+    border-radius: {{ section.settings.btn_radius }}px;
+    border: 1px solid {{ section.settings.btn_border }};
+    color: {{ section.settings.btn_text_color }};
+    background-color: {{ section.settings.btn_bg_color }};
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    animation: fadeSlideUp-{{ section.id }} 0.8s ease 0.85s forwards;
+    {% if section.settings.btn_frosted %}
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    {% endif %}
+  }
+
+  #section-{{ section.id }} .ds-btn:hover {
+    background-color: {{ section.settings.btn_hover_bg }};
+    color: {{ section.settings.btn_hover_text }};
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  }
+
+  {% if section.settings.show_scroll_indicator %}
+  #section-{{ section.id }} .ds-scroll-indicator {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 40px;
+    background-color: {{ section.settings.body_color }};
+    opacity: 0;
+    animation: fadeSlideUp-{{ section.id }} 0.8s ease 1.05s forwards,
+               scrollPulse-{{ section.id }} 2s ease 1.85s infinite;
+    z-index: 10;
+  }
+  {% endif %}
+
+  @media (max-width: 600px) {
+    #section-{{ section.id }} .ds-heading {
+      font-size: {{ section.settings.heading_size_mobile }}px;
+    }
+    #section-{{ section.id }} .ds-nav {
+      padding: 20px 20px;
+    }
+    #section-{{ section.id }} .ds-content {
+      padding: 0 16px 52px;
+    }
+  }
+{% endstyle %}
+
+<section id="section-{{ section.id }}" aria-label="{{ section.settings.heading_text | escape }}">
+  {% if section.settings.logo != blank %}
+    <img
+      class="ds-logo-bg"
+      src="{{ section.settings.logo | image_url: width: 1200 }}"
+      alt=""
+      aria-hidden="true"
+      loading="eager"
+    >
+  {% endif %}
+  <div class="ds-vignette" aria-hidden="true"></div>
+
+  <nav class="ds-nav" aria-label="Site navigation">
+    <span class="ds-nav-brand">{{ section.settings.nav_brand }}</span>
+    <span class="ds-nav-tagline">{{ section.settings.nav_tagline }}</span>
+  </nav>
+
+  <div class="ds-content">
+    {% if section.settings.label_text != blank %}
+      <p class="ds-label">{{ section.settings.label_text }}</p>
+    {% endif %}
+
+    {% if section.settings.heading_text != blank %}
+      <h1 class="ds-heading">{{ section.settings.heading_text }}</h1>
+    {% endif %}
+
+    {% if section.settings.subtitle_text != blank %}
+      <p class="ds-subtitle">{{ section.settings.subtitle_text }}</p>
+    {% endif %}
+
+    {% if section.settings.btn_text != blank %}
+      {% if section.settings.btn_url != blank %}
+        <a class="ds-btn" href="{{ section.settings.btn_url }}">{{ section.settings.btn_text }}</a>
+      {% else %}
+        <button class="ds-btn" type="button">{{ section.settings.btn_text }}</button>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  {% if section.settings.show_scroll_indicator %}
+    <div class="ds-scroll-indicator" aria-hidden="true"></div>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Drop Soon Hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "range",
+      "id": "logo_opacity",
+      "label": "Logo opacity",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "default": 8,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "logo_size",
+      "label": "Logo size",
+      "min": 20,
+      "max": 90,
+      "step": 1,
+      "default": 70,
+      "unit": "vw"
+    },
+    {
+      "type": "header",
+      "content": "Navigation Bar"
+    },
+    {
+      "type": "text",
+      "id": "nav_brand",
+      "label": "Brand name",
+      "default": "REWORKED"
+    },
+    {
+      "type": "text",
+      "id": "nav_tagline",
+      "label": "Top right text",
+      "default": "Custom Clothing"
+    },
+    {
+      "type": "color",
+      "id": "nav_color",
+      "label": "Nav text color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Hero Text"
+    },
+    {
+      "type": "text",
+      "id": "label_text",
+      "label": "Label text",
+      "default": "Custom Clothing"
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "label": "Label font size",
+      "min": 8,
+      "max": 18,
+      "step": 1,
+      "default": 10,
+      "unit": "px"
+    },
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Heading text",
+      "default": "Drop Soon"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "label": "Heading size — desktop",
+      "min": 40,
+      "max": 140,
+      "step": 2,
+      "default": 100,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading size — mobile",
+      "min": 28,
+      "max": 80,
+      "step": 2,
+      "default": 56,
+      "unit": "px"
+    },
+    {
+      "type": "text",
+      "id": "subtitle_text",
+      "label": "Subtitle text",
+      "default": "Shipping locally & worldwide"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Subtitle font size",
+      "min": 8,
+      "max": 18,
+      "step": 1,
+      "default": 11,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "btn_text",
+      "label": "Button text",
+      "default": "Notify Me"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "range",
+      "id": "btn_font_size",
+      "label": "Button font size",
+      "min": 8,
+      "max": 18,
+      "step": 1,
+      "default": 10,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "btn_padding_v",
+      "label": "Vertical padding",
+      "min": 8,
+      "max": 32,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "btn_padding_h",
+      "label": "Horizontal padding",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "btn_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "default": 50,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "btn_frosted",
+      "label": "Frosted glass effect",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Label color",
+      "default": "#555555"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle color",
+      "default": "#555555"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg_color",
+      "label": "Button background",
+      "default": "rgba(255,255,255,0.15)"
+    },
+    {
+      "type": "color",
+      "id": "btn_text_color",
+      "label": "Button text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "btn_border",
+      "label": "Button border color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "btn_hover_bg",
+      "label": "Button hover background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "btn_hover_text",
+      "label": "Button hover text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Extras"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scroll_indicator",
+      "label": "Show scroll indicator",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Drop Soon Hero",
+      "category": "Hero"
+    }
+  ]
+}
+{% endschema %}

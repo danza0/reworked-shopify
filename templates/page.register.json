@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "register-form",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}
